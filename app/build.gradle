@@ -1,12 +1,18 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+def cfg = rootProject.ext.configuration
+def libs = rootProject.ext.libraries
+
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:1.0.0-beta-4589"
     }
 }
-apply plugin: 'com.android.application'
 
 repositories {
     jcenter()
@@ -17,7 +23,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.giantcroissant.blender.app"
+        applicationId cfg.package
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
@@ -39,4 +45,16 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.1'
+
+    // Square
+    compile "com.squareup.retrofit2:retrofit:${libs.retrofit}"
+    compile "com.squareup.retrofit2:converter-gson:${libs.retrofit}"
+    compile "com.squareup.retrofit2:adapter-rxjava:${libs.retrofit}"
+
+    // Reactive X
+    compile "io.reactivex:rxjava:${libs.rxjava}"
+    compile "io.reactivex:rxandroid:${libs.rxandroid}"
+
+    // Kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-4589"
 }
