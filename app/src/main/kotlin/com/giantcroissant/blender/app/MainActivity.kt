@@ -99,7 +99,7 @@ open class DesignDemoFragment() : Fragment() {
         val args = getArguments()
         val tabPosition = arguments.getInt(TAB_POSITION)
 
-        val items = listOf("abc 1", "abc 2", "abc 3", "abc 4")
+        val items = listOf("abc 1", "abc 2", "abc 3", "abc 4", "abc 5", "abc 6", "abc 7", "abc 8", "abc 9", "abc 10")
 
         val v = inflater?.inflate(R.layout.fragment_list_view, container, false)
         val recyclerView = v?.findViewById(R.id.recyclerview) as RecyclerView

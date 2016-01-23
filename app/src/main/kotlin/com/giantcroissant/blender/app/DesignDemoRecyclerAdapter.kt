@@ -32,7 +32,7 @@ class DesignDemoRecyclerAdapter(items: List<String>) : RecyclerView.Adapter<Desi
     override fun getItemCount() : Int {
         //return items
         //return this.items.size()
-        return 3
+        return 15
     }
 //    override fun onViewRecycled(holder: ViewHolder?) {
 //        super.onViewRecycled(holder)
