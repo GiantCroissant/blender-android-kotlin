@@ -1,12 +1,18 @@
 package com.giantcroissant.blender.app
 
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.design.widget.TabLayout
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
-import android.view.Menu
-import android.view.MenuItem
 import android.support.v7.widget.Toolbar
+import android.view.*
+import android.widget.TextView
+
 //import android.widget.Toolbar
 
 class MainActivity : AppCompatActivity() {
@@ -34,6 +40,12 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         })
+
+        val adapter = DesignDemoPagerAdapter(supportFragmentManager)
+        val viewPager = findViewById(R.id.viewpager) as ViewPager
+        viewPager.adapter = adapter
+        val tabLayout = findViewById(R.id.tablayout) as TabLayout
+        tabLayout.setupWithViewPager(viewPager)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -58,5 +70,50 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
+    }
+}
+
+open class DesignDemoFragment() : Fragment() {
+
+    public companion object {
+        public fun newInstance(tabPosition: Int): DesignDemoFragment {
+            val fragment = DesignDemoFragment().apply {
+                val args = Bundle().apply {
+                    // putInt()
+                }
+
+                arguments = args
+            }
+
+            return fragment
+        }
+    }
+
+    val TAB_POSITION = "tab_position"
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        //return inflater?.inflate(R.layout.hello, container, false)
+
+        val tabPosition = arguments.getInt(TAB_POSITION)
+        val textView = TextView(activity)
+        textView.gravity = Gravity.CENTER
+        textView.text = "Text in Tab #" + tabPosition
+
+        return textView
+    }
+}
+
+open class DesignDemoPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+
+    override fun getItem(position: Int): Fragment {
+        return DesignDemoFragment.newInstance(position)
+    }
+
+    override fun getCount(): Int {
+        return 3
+    }
+
+    override fun getPageTitle(position: Int): CharSequence {
+        return "Tab " + position
     }
 }
