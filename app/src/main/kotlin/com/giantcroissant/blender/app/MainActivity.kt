@@ -2,6 +2,7 @@ package com.giantcroissant.blender.app
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
 import android.view.Menu
 import android.view.MenuItem
@@ -23,7 +24,16 @@ class MainActivity : AppCompatActivity() {
         //supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
         supportActionBar.setDisplayHomeAsUpEnabled(true)
 
-        val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
+        val drawerLayout = findViewById(R.id.drawer_layout) as DrawerLayout
+
+        val navigationView = findViewById(R.id.navigation_view) as NavigationView
+        navigationView.setNavigationItemSelectedListener(object : NavigationView.OnNavigationItemSelectedListener {
+            override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                item.setChecked(true)
+                drawerLayout.closeDrawers()
+                return true
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
