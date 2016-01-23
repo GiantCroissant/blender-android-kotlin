@@ -9,6 +9,8 @@ import android.support.design.widget.TabLayout
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.TextView
@@ -94,12 +96,22 @@ open class DesignDemoFragment() : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //return inflater?.inflate(R.layout.hello, container, false)
 
+        val args = getArguments()
         val tabPosition = arguments.getInt(TAB_POSITION)
-        val textView = TextView(activity)
-        textView.gravity = Gravity.CENTER
-        textView.text = "Text in Tab #" + tabPosition
 
-        return textView
+        val items = listOf("abc 1", "abc 2", "abc 3", "abc 4")
+
+        val v = inflater?.inflate(R.layout.fragment_list_view, container, false)
+        val recyclerView = v?.findViewById(R.id.recyclerview) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = DesignDemoRecyclerAdapter(items)
+
+
+//        val textView = TextView(activity)
+//        textView.gravity = Gravity.CENTER
+//        textView.text = "Text in Tab #" + tabPosition
+
+        return v
     }
 }
 
