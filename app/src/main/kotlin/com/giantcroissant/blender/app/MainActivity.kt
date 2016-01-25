@@ -40,10 +40,22 @@ class MainActivity : AppCompatActivity() {
                                     .replace(R.id.fragment_container, RecipesSectionFragment.newInstance())
                                     .commit()
                         }
+                        R.id.navigation_item_personal_collection -> {
+                            supportFragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.fragment_container, PersonalSectionFragment.newInstance())
+                                    .commit()
+                        }
                         R.id.navigation_item_connection_setting -> {
                             supportFragmentManager
                                     .beginTransaction()
                                     .replace(R.id.fragment_container, ConnectionSectionFragment.newInstance())
+                                    .commit()
+                        }
+                        R.id.navigation_item_company -> {
+                            supportFragmentManager
+                                    .beginTransaction()
+                                    .replace(R.id.fragment_container, AboutSectionFragment.newInstance())
                                     .commit()
                         }
                     }
