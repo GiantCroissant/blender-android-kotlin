@@ -3,6 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
 
     <string name="drawer_header_text">User</string>
     <string name="nav_item_one">One</string>
@@ -12,5 +13,10 @@
     <string name="nav_item_personal_collection">個人專區</string>
     <string name="nav_item_connection_setting">連線及操作設定</string>
     <string name="nav_item_company">廠商介面</string>
+
+    <string name="tab_recipes_latest">最新食譜</string>
+    <string name="tab_recipes_popular">熱門食譜</string>
+    <string name="tab_connection_connect">連線設定</string>
+    <string name="tab_connection_control">操作設定</string>
 
 </resources>

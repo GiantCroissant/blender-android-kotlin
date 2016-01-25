@@ -20,17 +20,4 @@
                 android:icon="@drawable/ic_three"
                 android:title="@string/nav_item_company" />
     </group>
-
-    <!--
-    <item android:title="@string/nav_sub_menu">
-        <menu>
-            <item
-                    android:icon="@drawable/ic_emoticon"
-                    android:title="@string/nav_sub_menu_item01" />
-            <item
-                    android:icon="@drawable/ic_emoticon"
-                    android:title="@string/nav_sub_menu_item02" />
-        </menu>
-    </item>
-    -->
 </menu>
