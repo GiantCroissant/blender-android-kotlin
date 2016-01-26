@@ -1,6 +1,7 @@
 package com.giantcroissant.blender.app
 
 import android.content.Context
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -22,27 +23,39 @@ class RecipesSectionRecyclerAdapter public constructor (val a: AppCompatActivity
         public lateinit var titleTextView: TextView
         public lateinit var descriptionTextView: TextView
         public var detailButton: Button?
+        public var expandButton: Button?
+
+        public var expanded: Boolean = false
+        public var description: String = ""
 
         init {
             imageView = v.findViewById(R.id.recipes_overview_image) as ImageView
             titleTextView = v.findViewById(R.id.title) as TextView
             descriptionTextView = v.findViewById(R.id.description) as TextView
             detailButton = v.findViewById(R.id.recipes_detail) as? Button
+            expandButton = v.findViewById(R.id.description_expand_toggle) as? Button
 
-            detailButton?.setOnClickListener { v ->
-                Log.d("in view: ", v.toString())
+            // This creates a new fragment for listing detail of the recipes
+            detailButton?.setOnClickListener { x ->
+                Log.d("in view: ", x.toString())
 
                 a?.supportFragmentManager
                     ?.beginTransaction()
                     ?.replace(R.id.fragment_container, RecipesDetailFragment.newInstance())
                     ?.commit()
             }
+
+            expandButton?.setOnClickListener { x ->
+                expanded = !expanded
+
+                descriptionTextView.text = if (expanded) description else ""
+            }
         }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) : ViewHolder {
         //Log.d("flow: ", "onCreateViewHolder")
-        System.out.println("onCreateViewHolder")
+        //System.out.println("onCreateViewHolder")
         val v = LayoutInflater.from(viewGroup.context).inflate(R.layout.cl_cardview_recipes_overview, viewGroup, false)
 
         return ViewHolder(a, c, v)
@@ -50,14 +63,16 @@ class RecipesSectionRecyclerAdapter public constructor (val a: AppCompatActivity
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         viewHolder.titleTextView.text = items[i].name
-        viewHolder.descriptionTextView.text = items[i].description
-        viewHolder.imageView.setImageResource(R.drawable.ic_recipes_stub_image)
-//        Glide
-//                .with(c)
-//                //.placeholder(R.drawable.ic_recipes_stub_image)
+        viewHolder.description = items[i].description
+        viewHolder.descriptionTextView.text = ""
+//        viewHolder.imageView.setImageResource(R.drawable.ic_recipes_stub_image)
+        Glide
+                .with(c)
+                //.placeholder(R.drawable.ic_recipes_stub_image)
 //                .load(items[i].imageUrl)
-//                //.transform(CircleTransform(c))
-//                .into(viewHolder.imageView)
+                .load(Uri.parse("file:///android_asset/orange-juice.jpg"))
+                //.transform(CircleTransform(c))
+                .into(viewHolder.imageView)
     }
 
     override fun getItemCount() : Int {

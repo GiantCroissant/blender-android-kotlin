@@ -31,6 +31,8 @@ class PersonalSectionFragment : Fragment() {
         (activity as? AppCompatActivity)?.let {
             it.setSupportActionBar(toolbar)
             it.supportActionBar.title = getString(R.string.nav_item_personal_collection)
+            it.supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
+            it.supportActionBar.setDisplayHomeAsUpEnabled(true)
         }
 
         return view

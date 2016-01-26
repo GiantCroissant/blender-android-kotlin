@@ -35,6 +35,8 @@ class ConnectionSectionFragment : Fragment() {
         (activity as? AppCompatActivity)?.let {
             it.setSupportActionBar(toolbar)
             it.supportActionBar.title = getString(R.string.nav_item_connection_setting)
+            it.supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
+            it.supportActionBar.setDisplayHomeAsUpEnabled(true)
 
             val viewPager = view?.findViewById(R.id.viewpager) as? ViewPager
             val adapter = ConnectionSectionPagerAdapter(it.supportFragmentManager, view?.context)

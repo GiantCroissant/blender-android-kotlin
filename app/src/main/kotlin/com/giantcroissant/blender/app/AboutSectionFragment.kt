@@ -33,6 +33,8 @@ class AboutSectionFragment : Fragment() {
         (activity as? AppCompatActivity)?.let {
             it.setSupportActionBar(toolbar)
             it.supportActionBar.title = getString(R.string.nav_item_company)
+            it.supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
+            it.supportActionBar.setDisplayHomeAsUpEnabled(true)
 
             val viewPager = view?.findViewById(R.id.viewpager) as? ViewPager
             val adapter = AboutSectionPagerAdapter(it.supportFragmentManager, view?.context)

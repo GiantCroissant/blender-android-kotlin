@@ -48,6 +48,8 @@ class RecipesSectionFragment : Fragment() {
         (activity as? AppCompatActivity)?.let {
             it.setSupportActionBar(toolbar)
             it.supportActionBar.title = getString(R.string.nav_item_recipes_list)
+            it.supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu)
+            it.supportActionBar.setDisplayHomeAsUpEnabled(true)
 
             val viewPager = view?.findViewById(R.id.viewpager) as? ViewPager
             val adapter = RecipesSectionPagerAdapter(it.supportFragmentManager, view?.context)

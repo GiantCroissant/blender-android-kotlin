@@ -17,15 +17,82 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.TextView
+import rx.Observable
+import rx.Scheduler
+import rx.SingleSubscriber
+import rx.Subscriber
+import rx.schedulers.Schedulers
+import java.io.BufferedReader
+import java.io.ByteArrayOutputStream
+import java.io.InputStreamReader
+
+import com.google.gson.Gson
+import com.github.salomonbrys.*
+import com.github.salomonbrys.kotson.fromJson
+//import rx.lang.kotlin.observable
+//import rx.lang.kotlin.toObservable
 
 //import android.widget.Toolbar
 
+
+//Observable<String> fetchFromGoogle = Observable.create(new Observable.OnSubscribe<String>() {
+//    @Override
+//    public void call(Subscriber<? super String> subscriber) {
+//        try {
+//            String data = fetchData("http://www.google.com");
+//            subscriber.onNext(data); // Emit the contents of the URL
+//            subscriber.onCompleted(); // Nothing more to emit
+//        }catch(Exception e){
+//            subscriber.onError(e); // In case there are network errors
+//        }
+//    }
+//});
 class MainActivity : AppCompatActivity() {
+    var drawerLayout: DrawerLayout? = null
+
+    val recipesData = Observable.create(object : Observable.OnSubscribe<String> {
+        override fun call(t: Subscriber<in String>?) {
+            try {
+                val inputStream = assets.open("recipes-data.json")
+                val inputStreamReader = InputStreamReader(inputStream)
+                val sb = StringBuilder()
+                val br = BufferedReader(inputStreamReader)
+                var read = br.readLine()
+                while(read != null) {
+                    sb.append(read)
+                    read = br.readLine()
+                }
+                t?.onNext(sb.toString())
+                t?.onCompleted()
+            } catch(e: Exception) {
+                t?.onError(e)
+            }
+        }
+    })
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.cl_activity_main)
 
-        val drawerLayout = findViewById(R.id.drawer_layout) as? DrawerLayout
+        recipesData
+                .observeOn(Schedulers.io())
+                .map { dataString -> Gson().fromJson<RecipesCollectionDataJsonObject>(dataString) }
+                .subscribe(object : Subscriber<RecipesCollectionDataJsonObject>() {
+                    override fun onNext(r: RecipesCollectionDataJsonObject?) {
+                        System.out.println("Success parsing json")
+                        System.out.println(r.toString())
+                    }
+
+                    override fun onError(e: Throwable?) {
+                        System.out.println(e?.message)
+                    }
+
+                    override fun onCompleted() {
+
+                    }
+                })
+
+        drawerLayout = findViewById(R.id.drawer_layout) as? DrawerLayout
         val navigationView = findViewById(R.id.navigation_view) as? NavigationView
         navigationView?.let {
             it.setNavigationItemSelectedListener(object : NavigationView.OnNavigationItemSelectedListener {
@@ -73,6 +140,26 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        val id = item.itemId
+
+        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true
+//        }
+
+        //if (id == R.id.home)
+
+        when(id) {
+            android.R.id.home -> drawerLayout?.openDrawer(GravityCompat.START)
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
