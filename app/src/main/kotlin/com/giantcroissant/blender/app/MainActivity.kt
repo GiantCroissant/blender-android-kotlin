@@ -1,34 +1,20 @@
 package com.giantcroissant.blender.app
 
-import android.content.Context
-import android.content.Intent
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.design.widget.TabLayout
-import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.GravityCompat
-import android.support.v4.view.ViewPager
 import android.support.v4.widget.DrawerLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
-import android.view.*
-import android.widget.TextView
+import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
+import com.github.salomonbrys.kotson.fromJson
+import com.google.gson.Gson
 import rx.Observable
-import rx.Scheduler
-import rx.SingleSubscriber
 import rx.Subscriber
 import rx.schedulers.Schedulers
 import java.io.BufferedReader
-import java.io.ByteArrayOutputStream
 import java.io.InputStreamReader
 
-import com.google.gson.Gson
-import com.github.salomonbrys.*
-import com.github.salomonbrys.kotson.fromJson
 //import rx.lang.kotlin.observable
 //import rx.lang.kotlin.toObservable
 
@@ -95,40 +81,38 @@ class MainActivity : AppCompatActivity() {
         drawerLayout = findViewById(R.id.drawer_layout) as? DrawerLayout
         val navigationView = findViewById(R.id.navigation_view) as? NavigationView
         navigationView?.let {
-            it.setNavigationItemSelectedListener(object : NavigationView.OnNavigationItemSelectedListener {
-                override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                    item.setChecked(true)
-                    drawerLayout?.closeDrawers()
+            it.setNavigationItemSelectedListener({ item ->
+                item.setChecked(true)
+                drawerLayout?.closeDrawers()
 
-                    when(item.itemId) {
-                        R.id.navigation_item_recipes_list -> {
-                            supportFragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.fragment_container, RecipesSectionFragment.newInstance())
-                                    .commit()
-                        }
-                        R.id.navigation_item_personal_collection -> {
-                            supportFragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.fragment_container, PersonalSectionFragment.newInstance())
-                                    .commit()
-                        }
-                        R.id.navigation_item_connection_setting -> {
-                            supportFragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.fragment_container, ConnectionSectionFragment.newInstance())
-                                    .commit()
-                        }
-                        R.id.navigation_item_company -> {
-                            supportFragmentManager
-                                    .beginTransaction()
-                                    .replace(R.id.fragment_container, AboutSectionFragment.newInstance())
-                                    .commit()
-                        }
+                when(item.itemId) {
+                    R.id.navigation_item_recipes_list -> {
+                        supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, RecipesSectionFragment.newInstance())
+                                .commit()
                     }
-
-                    return true
+                    R.id.navigation_item_personal_collection -> {
+                        supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, PersonalSectionFragment.newInstance())
+                                .commit()
+                    }
+                    R.id.navigation_item_connection_setting -> {
+                        supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, ConnectionSectionFragment.newInstance())
+                                .commit()
+                    }
+                    R.id.navigation_item_company -> {
+                        supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, AboutSectionFragment.newInstance())
+                                .commit()
+                    }
                 }
+
+                true
             })
 
             it.setCheckedItem(R.id.navigation_item_recipes_list)
